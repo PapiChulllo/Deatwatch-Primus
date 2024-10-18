@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;  // Import TextMeshPro namespace
+using UnityEngine.SceneManagement;  // For switching scenes
 
 public class HealthManager : MonoBehaviour
 {
@@ -12,19 +14,26 @@ public class HealthManager : MonoBehaviour
     public Sprite fullHeart;  // Sprite for a full heart
     public Sprite emptyHeart;  // Sprite for an empty heart
 
+    public GameObject gameOverPanel;  // Reference to the Game Over UI panel
+    public TMP_Text gameOverText;     // Reference to the Game Over text
+
     void Start()
     {
-        currentHealth = maxHealth;  // Initialize player with max health
+        // Initialize player health to maximum health at the start
+        currentHealth = maxHealth;
         UpdateHearts();
+
+        // Ensure the Game Over panel is hidden at the start
+        gameOverPanel.SetActive(false);
     }
 
-    // This function is called when the player takes damage (collides with an enemy)
+    // This function is called when the player takes damage (e.g., collides with an enemy)
     public void TakeDamage()
     {
         if (currentHealth > 0)
         {
             currentHealth--;  // Reduce health by 1
-            UpdateHearts();  // Update the heart icons
+            UpdateHearts();   // Update the heart icons
         }
 
         if (currentHealth <= 0)
@@ -52,6 +61,15 @@ public class HealthManager : MonoBehaviour
     // Game over logic
     void GameOver()
     {
-        Debug.Log("Game Over!");  // You can add game over logic here (e.g., restart game, show game over screen)
+        Debug.Log("Game Over!");  // Log the game over state
+        gameOverPanel.SetActive(true);  // Show the Game Over panel
+        Time.timeScale = 0;  // Pause the game
+    }
+
+    // Function to return to the main menu
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1;  // Resume game before switching scenes
+        SceneManager.LoadScene("MainMenu");  // Load the Main Menu scene
     }
 }
