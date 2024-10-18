@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3106170675
+    locked: 0
+  - name: Tank
+    uniqueID: 1650740163
+    locked: 0
+  - name: Weapons
+    uniqueID: 1067008555
+    locked: 0
