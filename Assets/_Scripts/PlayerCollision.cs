@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
+    public AudioClip explosionSound;  // Explosion sound clip
+    private AudioSource audioSource;  // Reference to the AudioSource component
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();  // Get the AudioSource component
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the player collides with an enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Access the HealthManager and reduce the player's health
+            // Play explosion sound
+            audioSource.PlayOneShot(explosionSound);
+
+            // Access the HealthManager to reduce player's health
             FindObjectOfType<HealthManager>().TakeDamage();
 
-            // Optionally, destroy the enemy upon collision
+            // Destroy the enemy
             Destroy(collision.gameObject);
         }
     }

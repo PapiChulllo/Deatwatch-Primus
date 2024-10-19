@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class BulletCollision : MonoBehaviour
 {
+    public AudioClip explosionSound;  // Explosion sound clip for when the enemy is destroyed
+    public int scoreValue = 10;  // The score the player gets for destroying an enemy
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the bullet collides with an enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Add 10 points to the score
-            ScoreManager.AddScore(10);
+            // Play the explosion sound at the enemy's position
+            AudioSource.PlayClipAtPoint(explosionSound, collision.transform.position);
 
-            // Destroy the enemy
+            // Add score to the player when the enemy is destroyed
+            ScoreManager.AddScore(scoreValue);
+
+            // Destroy the enemy immediately
             Destroy(collision.gameObject);
 
-            // Destroy the bullet as well
+            // Destroy the bullet
             Destroy(gameObject);
         }
     }
